@@ -5,7 +5,7 @@
                     <h3 @click="showDetail=!showDetail">{{project.title}}</h3>
                 </div>
                 <div class="icon-div">
-                    <i class="fa-solid fa-trash"></i>
+                    <i class="fa-solid fa-trash" @click="deleteProject"></i>
                     <i class="fa-solid fa-pen"></i>
                     <i class="fa-solid fa-check"></i>
                 </div>
@@ -19,10 +19,17 @@ export default {
     props:['project'],
     data(){
         return{
-            showDetail:false
+            showDetail:false,
+            api: "http://localhost:3000/projects/"
         }
     },
     methods:{
+        deleteProject(){
+            let api = this.api;
+            fetch(api+this.project.id, {method:"DELETE"})
+            .then(this.$emit('delete',this.project.id))
+            .catch(err=> console.error(err.message()))
+        }
     }
 }
 </script>
